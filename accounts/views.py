@@ -9,7 +9,8 @@ from django.contrib.auth.forms import SetPasswordForm
 from django.contrib.auth.views import LoginView, LogoutView
 from django.core.mail import EmailMultiAlternatives
 from django.template.loader import render_to_string
-
+from django.views.generic import ListView
+from book.models import Purchase
 # Create your views here.
 class UserRegistrationView(FormView):
     template_name = 'accounts/user_registration.html'
@@ -35,21 +36,10 @@ class UserLogoutView(LogoutView):
             logout(self.request)
         return reverse_lazy('home')
 
-class UserProfileView(View):
+class ProfileView(ListView):
     template_name = 'accounts/profile.html'
+    context_object_name = 'data'
 
-    # def get(self, request):
-    #     form = UserUpdateForm(instance=request.user)
-    #     return render(request, self.template_name, {'form': form})
-
-    # def post(self, request):
-    #     form = UserUpdateForm(request.POST, instance=request.user)
-    #     if form.is_valid():
-    #         form.save()
-    #         return redirect('profile')  # Redirect to the user's profile page
-    #     return render(request, self.template_name, {'form': form})
-
-def profile(request):
-    # user_purchases = Purchase.objects.filter(user=request.user)
-    # data = [purchase.car for purchase in user_purchases]
-    return render(request, 'accounts/profile.html')
+    def get_queryset(self):
+        user_purchases = Purchase.objects.filter(user=self.request.user)
+        return [purchase.book for purchase in user_purchases]
