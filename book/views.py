@@ -37,8 +37,8 @@ class DetailsPostView(DetailView):
 
 @login_required
 def purchase(request,id):
-    card = Book.objects.get(id=id)
-    purchase = Purchase.objects.create(user=request.user, car=card)      
+    book = Book.objects.get(id=id)
+    purchase = Purchase.objects.create(user=request.user, book=book)      
     messages.success(request, "Buy successfully")
     return redirect('profile')
         

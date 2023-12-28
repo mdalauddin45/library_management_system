@@ -46,7 +46,7 @@
                             <p class="dark:text-gray-100">Price: {{ i.price }} $</p>
                             <p class="dark:text-gray-100">Category: {{ i.category }}</p>
                         </div>
-                        <button type="button" class="flex items-center justify-center w-full p-3 font-semibold tracki rounded-md dark:bg-violet-400 dark:text-gray-900">Read more</button>
+                        <a href="{% url 'details_post' i.id %}" class="flex items-center justify-center w-full p-3 font-semibold tracki rounded-md dark:bg-violet-400 dark:text-gray-900">Read more</a>
                     </div>
                 </div>
             {% endfor %}
