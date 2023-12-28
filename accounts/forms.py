@@ -11,10 +11,12 @@ class UserRegistrationForm(UserCreationForm):
     def save(self, commit=True):
         our_user = super().save(commit=False)
         if commit == True:
+            our_user.save()
             UserLibraryAccount.objects.create(
                 user = our_user,
-                account_no = 1000+ our_user.id
+                account_no = 1000 + our_user.id
             )
+            
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         

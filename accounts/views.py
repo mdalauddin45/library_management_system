@@ -48,3 +48,8 @@ class UserProfileView(View):
     #         form.save()
     #         return redirect('profile')  # Redirect to the user's profile page
     #     return render(request, self.template_name, {'form': form})
+
+def profile(request):
+    # user_purchases = Purchase.objects.filter(user=request.user)
+    # data = [purchase.car for purchase in user_purchases]
+    return render(request, 'accounts/profile.html')
