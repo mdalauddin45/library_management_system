@@ -41,5 +41,6 @@ class ProfileView(ListView):
     context_object_name = 'data'
 
     def get_queryset(self):
+        # Retrieve user's purchases and extract the cars
         user_purchases = Purchase.objects.filter(user=self.request.user)
         return [purchase.book for purchase in user_purchases]

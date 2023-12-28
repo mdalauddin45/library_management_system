@@ -6,6 +6,7 @@ from django.views.generic import DetailView
 from .models import Book
 from django.contrib import messages
 from book.models import Purchase
+from django.views import View
 from django.contrib.auth.decorators import login_required
 
 
@@ -35,12 +36,20 @@ class DetailsPostView(DetailView):
         context['comment_form']= comment_form
         return context
 
-@login_required
-def purchase(request,id):
-    book = Book.objects.get(id=id)
-    purchase = Purchase.objects.create(user=request.user, book=book)      
-    messages.success(request, "Buy successfully")
-    return redirect('profile')
+class PurchaseView(View):
+    def get(self, request, id):
+        book = Book.objects.get(id=id)
+
+        if request.user.account.balance < book.price:
+            messages.error(request, "Insufficient balance to make the purchase.")
+        else:
+            purchase = Purchase.objects.create(user=request.user, book=book)
+            request.user.account.balance -= book.price
+            request.user.account.save()
+
+            messages.success(request, "Purchase successful. Balance deducted.")
+
+        return redirect('profile')
         
 
 

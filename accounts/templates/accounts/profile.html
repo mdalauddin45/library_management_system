@@ -38,9 +38,10 @@
                     <td class="p-3">{{ i.title }}</td>
                     <td class="p-3">{{ i.price }}</td>
                     <td class="p-3">{{request.user.account.balance}}</td>
-                    <td class="p-3">{{ i.purchase_date|date:"Y-m-d H:i:s" }}</td>
+                    <td class="p-3">{{ i.purchase_date }}</td>
                     <td class="p-3">
                       <a  class="flex items-center justify-center w-full p-3 font-semibold tracki rounded-md dark:bg-violet-400 dark:text-gray-900">Return</a>
+
                     </td>
                 </tr>
                 {% endfor %}
