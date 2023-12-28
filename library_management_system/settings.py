@@ -40,6 +40,8 @@ INSTALLED_APPS = [
     'accounts',
     'core',
     'transactions',
+    'card',
+    'category',
 ]
 
 MIDDLEWARE = [
