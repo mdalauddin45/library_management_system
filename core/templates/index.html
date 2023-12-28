@@ -1,8 +1,9 @@
 {% extends 'base.html' %} 
-{% load static %} 
+
 
 {% block head_title %}Library Management System{% endblock %} 
 {% block content %}
+{% load static %} 
 {% comment %} <div class="container mx-auto flex flex-col md:flex-row items-center my-12 md:my-24">
 
     <div class="flex flex-col w-full lg:w-1/2 justify-center items-start pt-12 pb-24 px-6 bg-white rounded-2xl bg-opacity-70 mx-3">
@@ -39,7 +40,7 @@
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
             {% for i in books %}
                 <div class="max-w-xs rounded-md shadow-md dark:bg-gray-900 dark:text-gray-100 mb-4">
-                    <img src="{{ i.image.url }}" alt="{{ i.title }}" class="object-cover object-center w-full h-56 rounded-t-md dark:bg-gray-500">
+                    <img src={{i.image.url}} alt="{{ i.title }}" class="object-cover object-center w-full h-56 rounded-t-md dark:bg-gray-500">
                     <div class="flex flex-col justify-between p-6 space-y-8">
                         <div class="space-y-2">
                             <h2 class="text-3xl font-semibold tracki">{{ i.title }}</h2>
