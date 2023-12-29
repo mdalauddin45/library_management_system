@@ -1,11 +1,11 @@
 from django.shortcuts import render, redirect
-from .forms import UserRegistrationForm
+from .forms import UserRegistrationForm,UserUpdateForm
 from django.urls import reverse_lazy
 from django.views.generic import FormView
 from django.contrib.auth import login, logout
 from django.contrib.auth.views import LoginView, LogoutView
-from django.template.loader import render_to_string
 from django.views.generic import ListView
+from django.contrib import messages
 from book.models import Purchase
 from django.contrib.auth.mixins import LoginRequiredMixin
 
@@ -36,13 +36,24 @@ class UserLogoutView(LogoutView):
 
 class ProfileView(LoginRequiredMixin, ListView):
     template_name = 'accounts/profile.html'
-    balance = 0 
+    balance = 0
 
     def get(self, request):
         user_purchases = Purchase.objects.filter(user=request.user)
         account_balance = request.user.account.balance
 
+        form = UserUpdateForm(instance=request.user)
         return render(request, self.template_name, {
             'user_purchases': user_purchases,
             'account_balance': account_balance,
+            'form': form,
         })
+
+    def post(self, request):
+        form = UserUpdateForm(request.POST, instance=request.user)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'Profile updated successfully!')
+            return redirect('profile')
+        return render(request, self.template_name, {'form': form})
+

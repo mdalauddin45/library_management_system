@@ -11,19 +11,75 @@
 </div>
 {% endfor %} {% endif %}
 <div class="bg-white px-3 py-4 rounded-xl my-6">
-    <h1 class="font-bold text-3xl text-center pb-5">Profile Information</h1>
-    <h4 class="font-bold text-3xl text-left pb-5">Account NO: {{request.user.account.account_no}}</h4>
-    <h4 class="font-bold text-3xl text-left pb-5">Name: {{request.user.account.user}}</h4>
-    <div class="w-full mt-10">
-    </div>
+  <h4 class="font-bold text-3xl text-left pb-5">Account NO: {{request.user.account.account_no}}</h4>
+  <h1 class="font-bold text-3xl text-center pb-5">Update Profile Information</h1>
+  <div class="w-full mt-10">
+      <form method="post" class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
+          {% csrf_token %} {% for hidden_field in form.hidden_fields %} {{ hidden_field.errors }} {{ hidden_field }} {% endfor %}
+          <div class="flex flex-wrap -mx-3 mb-6">
+              <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
+                  <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="{{ form.first_name.id_for_label }}">
+                      {{ form.first_name.label }}
+                  </label> {{ form.first_name }} {% if form.first_name.errors %} {% for error in form.first_name.errors %}
+                  <p class="text-red-600 text-sm italic pb-2">{{ error }}</p>
+                  {% endfor %} {% endif %}
+              </div>
+              <div class="w-full md:w-1/2 px-3">
+                  <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="{{ form.last_name.id_for_label }}">
+                      {{ form.last_name.label }}
+                  </label> {{ form.last_name }} {% if form.last_name.errors %} {% for error in form.last_name.errors %}
+                  <p class="text-red-600 text-sm italic pb-2">{{ error }}</p>
+                  {% endfor %} {% endif %}
+              </div>
+          </div>
+          <div class="flex flex-wrap -mx-3 mb-6">
+              <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
+                  <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="{{ form.email.id_for_label }}">
+                      {{ form.email.label }}
+                  </label> {{ form.email }} {% if form.email.errors %} {% for error in form.email.errors %}
+                  <p class="text-red-600 text-sm italic pb-2">{{ error }}</p>
+                  {% endfor %} {% endif %}
+              </div>
+              <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
+                <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="{{ form.birth_date.id_for_label }}">
+                    {{ form.birth_date.label }}
+                </label> {{ form.birth_date }} {% if form.birth_date.errors %} {% for error in form.birth_date.errors %}
+                <p class="text-red-600 text-sm italic pb-2">{{ error }}</p>
+                {% endfor %} {% endif %}
+            </div>
+          </div>
+          <div class="flex flex-wrap -mx-3">
+              <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
+                  <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="{{ form.password1.id_for_label }}">
+                      {{ form.password1.label }}
+                  </label> {{ form.password1 }} {% if form.password1.errors %} {% for error in form.password1.errors %}
+                  <p class="text-red-600 text-sm italic pb-2">{{ error }}</p>
+                  {% endfor %} {% endif %}
+              </div>
+              <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
+                  <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="{{ form.password2.id_for_label }}">
+                      {{ form.password2.label }}
+                  </label> {{ form.password2 }} {% if form.password2.errors %} {% for error in form.password2.errors %}
+                  <p class="text-red-600 text-sm italic pb-2">{{ error }}</p>
+                  {% endfor %} {% endif %}
+              </div>
+          </div>
+          <div class="flex items-center justify-between">
+              <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="submit">
+                  Update
+              </button>
+          </div>
+      </form>
+  </div>
 </div>
-<div class="flex flex-wrap -mx-2">
-    <div class="container p-2 mx-auto sm:p-4 dark:text-gray-100">
-      <h2 class="mb-4 text-2xl font-semibold leadi">Purchase</h2>
+
+<div class="flex flex-wrap -mx-2 bg-white rounded-md">
+  <div class="container p-2 mx-auto sm:p-4 dark:text-gray-100">
+      <h5 class="font-bold text-xl text-center">All Purchase</h5>
       <div class="overflow-x-auto">
         <table class="table-auto mx-auto w-full px-5 rounded-xl mt-8 border dark:border-neutral-500">
           <thead class="bg-purple-900 text-white text-left">
-            <tr class="bg-gradient-to-tr from-indigo-600 to-purple-600 rounded-md py-2 px-4 text-white font-bold">
+            <tr class="bg-gradient-to-tr from-blue-500 to-blue-400 rounded-md py-2 px-4 text-white font-bold">
               <th class="px-4 py-2">Id</th>
               <th class="px-4 py-2">Book</th>
               <th class="px-4 py-2">Price</th>
@@ -51,7 +107,7 @@
                 {{ purchase.purchase_date|date:"F d, Y h:i A" }}
               </td>
               <td class="px-4 py-2">
-                <a href="{% url 'return_book' purchase.pk %}" class="font-bold bg-red-900 text-white hover:text-blue-900 hover:bg-white border border-blue-900 font-bold px-4 py-2 rounded-lg">Return</a>
+                <a href="{% url 'return_book' purchase.pk %}" class="flex items-center justify-center w-full p-3 font-semibold tracki bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 mt-2 rounded">Return</a>
             </td>
             </tr>
             {% endfor %}
