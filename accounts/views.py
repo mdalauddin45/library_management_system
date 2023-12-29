@@ -8,7 +8,7 @@ from django.template.loader import render_to_string
 from django.views.generic import ListView
 from book.models import Purchase
 from django.contrib.auth.mixins import LoginRequiredMixin
-from transactions.models import Transaction
+
 # Create your views here.
 class UserRegistrationView(FormView):
     template_name = 'accounts/user_registration.html'

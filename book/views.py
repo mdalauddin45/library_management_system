@@ -1,14 +1,16 @@
 from typing import Any
 from .import forms
+from django.urls import reverse_lazy
 from django.shortcuts import redirect
 from .import models
-from django.views.generic import DetailView
+from django.views.generic import DetailView,DeleteView
 from .models import Book
 from django.contrib import messages
 from book.models import Purchase
 from django.views import View
 from django.contrib.auth.decorators import login_required
 from .forms import ReviewForm
+from django.shortcuts import get_object_or_404
 
 
 # Create your views here.
@@ -57,8 +59,27 @@ class PurchaseView(View):
 
             messages.success(request, "Purchase successful. Balance deducted.")
 
-        return redirect('profile')
-        
+        return redirect('profile')   
+    
+class ReturnView(DeleteView):
+    model = Purchase
+    success_url = reverse_lazy('profile')
+    template_name = 'accounts/return_confirmation.html'
 
+    def form_valid(self, form):
+        purchase = self.get_object()
+        amount = purchase.book.price 
+        account = purchase.user.account
+        account.balance += amount
+        account.save(update_fields=['balance'])
+        
+        messages.success(
+            self.request,
+            f'{"{:,.2f}".format(float(amount))}$ was Return to your account successfully'
+        )
+        return super().form_valid(form)
+    
+    def delete(self, request, *args, **kwargs):
+        return super().delete(request, *args, **kwargs)
 
            

@@ -1,0 +1,10 @@
+{% extends 'base.html' %} {% load static %} {% load humanize %}
+{% block head_title %}Banking System{% endblock %} {% block content %} 
+<h1>Confirm Book Return</h1>
+<form method="post">
+    {% csrf_token %}
+    <input type="hidden" name="purchase_id" value="{{ purchase_id }}">
+    <p>Are you sure you want to return this book?</p>
+    <button type="submit">Confirm Return</button>
+</form>
+{% endblock %}
