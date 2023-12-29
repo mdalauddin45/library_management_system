@@ -6,7 +6,7 @@ from .import models
 from django.views.generic import DetailView,DeleteView
 from .models import Book
 from django.contrib import messages
-from book.models import Purchase
+from book.models import Bookpurchase
 from django.views import View
 from .forms import ReviewForm
 from transactions.views import send_transaction_email
@@ -30,7 +30,7 @@ class DetailsPostView(DetailView):
             messages.success(request, 'Your review has been added successfully!')
             return self.get(request, *args, **kwargs)
         else:
-            if not Purchase.objects.filter(user=request.user, book=post).exists():
+            if not Bookpurchase.objects.filter(user=request.user, book=post).exists():
                 messages.error(request, 'Can not added your review , if you can give this book review must be purchased it bro')
             return self.get(request, *args, **kwargs)
     
@@ -51,16 +51,17 @@ class PurchaseView(View):
         if request.user.account.balance < book.price:
             messages.error(request, "Insufficient balance to make the purchase.")
         else:
-            purchase = Purchase.objects.create(user=request.user, book=book)
+            # purchase = Purchase.objects.create(user=request.user, book=book )
+            purchase = Bookpurchase.objects.create(user=request.user, book=book,before_purchase_balance=request.user.account.balance, after_purchase_balance=request.user.account.balance - book.price )
             request.user.account.balance -= book.price
             request.user.account.save()
 
             messages.success(request, "Purchase successful. Balance deducted.")
         send_transaction_email(self.request.user,book.price,"Purchase Message", 'transactions/purchase_email.html' )
-        return redirect('profile')   
-    
+        return redirect('profile')
+     
 class ReturnView(DeleteView):
-    model = Purchase
+    model = Bookpurchase
     success_url = reverse_lazy('profile')
     template_name = 'accounts/return_confirmation.html'
 

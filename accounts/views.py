@@ -6,7 +6,7 @@ from django.contrib.auth import login, logout
 from django.contrib.auth.views import LoginView, LogoutView
 from django.views.generic import ListView
 from django.contrib import messages
-from book.models import Purchase
+from book.models import Bookpurchase
 from django.contrib.auth.mixins import LoginRequiredMixin
 
 # Create your views here.
@@ -39,7 +39,7 @@ class ProfileView(LoginRequiredMixin, ListView):
     balance = 0
 
     def get(self, request):
-        user_purchases = Purchase.objects.filter(user=request.user)
+        user_purchases = Bookpurchase.objects.filter(user=request.user)
         account_balance = request.user.account.balance
 
         form = UserUpdateForm(instance=request.user)

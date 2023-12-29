@@ -98,10 +98,10 @@
                 </span>
               </td>
               <td class="px-4 py-2">
-                $ {{ purchase.book.price }}
+                {{ purchase.book.price }} $
               </td>
               <td class="px-4 py-2">
-                ${{ balance_after_transaction }}
+                {{ purchase.after_purchase_balance }} $ 
               </td>
               <td class="px-4 py-2">
                 {{ purchase.purchase_date|date:"F d, Y h:i A" }}

@@ -22,10 +22,13 @@ class UserReviews(models.Model):
     
     def __str__(self):
         return f"Review by {self.name}"
-
-class Purchase(models.Model):
+    
+class Bookpurchase(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     book = models.ForeignKey(Book, on_delete=models.CASCADE)
     purchase_date = models.DateTimeField(auto_now_add=True)
+    before_purchase_balance = models.DecimalField(max_digits=10, decimal_places=2)
+    after_purchase_balance = models.DecimalField(max_digits=10, decimal_places=2)
+
     def __str__(self):
         return f"Purchase by {self.user.username} - Book: {self.book.title} - Date: {self.purchase_date}"
