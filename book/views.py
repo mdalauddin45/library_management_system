@@ -8,9 +8,7 @@ from .models import Book
 from django.contrib import messages
 from book.models import Purchase
 from django.views import View
-from django.contrib.auth.decorators import login_required
 from .forms import ReviewForm
-from django.shortcuts import get_object_or_404
 from transactions.views import send_transaction_email
 
 # Create your views here.
