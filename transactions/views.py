@@ -2,7 +2,7 @@ from django.shortcuts import render
 from transactions.models import Transaction
 from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.views.generic import CreateView
+from django.views.generic import CreateView,ListView
 from django.urls import reverse_lazy
 from .forms import DepositForm
 # Create your views here.
@@ -42,3 +42,21 @@ class DepositMoneyView(TransactionCreateMixin):
             f'{"{:,.2f}".format(float(amount))}$ was deposited to your account successfully'
         )
         return super().form_valid(form)
+
+class TransactionReportView(LoginRequiredMixin, ListView):
+    template_name = 'transactions/transaction_report.html'
+    model = Transaction
+    balance = 0 
+    
+    def get_queryset(self):
+        queryset = super().get_queryset().filter(
+            account=self.request.user.account
+        )
+        return queryset.distinct()
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context.update({
+            'account': self.request.user.account
+        })
+        return context

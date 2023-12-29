@@ -1,16 +1,14 @@
 from django.shortcuts import render, redirect
 from .forms import UserRegistrationForm
 from django.urls import reverse_lazy
-from django.views import View
 from django.views.generic import FormView
-from django.contrib import messages
-from django.contrib.auth import login, logout,update_session_auth_hash
-from django.contrib.auth.forms import SetPasswordForm
+from django.contrib.auth import login, logout
 from django.contrib.auth.views import LoginView, LogoutView
-from django.core.mail import EmailMultiAlternatives
 from django.template.loader import render_to_string
 from django.views.generic import ListView
 from book.models import Purchase
+from django.contrib.auth.mixins import LoginRequiredMixin
+from transactions.models import Transaction
 # Create your views here.
 class UserRegistrationView(FormView):
     template_name = 'accounts/user_registration.html'
@@ -36,11 +34,14 @@ class UserLogoutView(LogoutView):
             logout(self.request)
         return reverse_lazy('home')
 
-class ProfileView(ListView):
+class ProfileView(LoginRequiredMixin, ListView):
     template_name = 'accounts/profile.html'
-    context_object_name = 'data'
 
-    def get_queryset(self):
-        # Retrieve user's purchases and extract the cars
-        user_purchases = Purchase.objects.filter(user=self.request.user)
-        return [purchase.book for purchase in user_purchases]
+    def get(self, request):
+        user_purchases = Purchase.objects.filter(user=request.user)
+        account_balance = request.user.account.balance
+
+        return render(request, self.template_name, {
+            'user_purchases': user_purchases,
+            'account_balance': account_balance,
+        })
