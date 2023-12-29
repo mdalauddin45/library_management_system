@@ -30,7 +30,6 @@ class UserLoginView(LoginView):
     def get_success_url(self):
         return reverse_lazy('home')
 
-@method_decorator(login_required, name='dispatch')
 class UserLogoutView(LogoutView):
     def get_success_url(self):
         if self.request.user.is_authenticated:
