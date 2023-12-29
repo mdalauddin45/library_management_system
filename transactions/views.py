@@ -6,6 +6,8 @@ from django.urls import reverse_lazy
 from .forms import DepositForm
 from django.core.mail import EmailMultiAlternatives
 from django.template.loader import render_to_string
+from django.utils.decorators import method_decorator
+from django.contrib.auth.decorators import login_required
 
 # Create your views here.
 def send_transaction_email(user,amount,subject,template):
@@ -16,7 +18,7 @@ def send_transaction_email(user,amount,subject,template):
     send_email = EmailMultiAlternatives(subject, '',to=[user.email])
     send_email.attach_alternative(message, "text/html")
     send_email.send()
-
+    
 class TransactionCreateMixin(LoginRequiredMixin, CreateView):
     template_name = 'transactions/transaction_form.html'
     model = Transaction
@@ -37,7 +39,7 @@ class TransactionCreateMixin(LoginRequiredMixin, CreateView):
         })
         return context
 
-
+@method_decorator(login_required, name='dispatch')
 class DepositMoneyView(TransactionCreateMixin):
     form_class = DepositForm
     title = 'Deposit'

@@ -10,6 +10,8 @@ from book.models import Bookpurchase
 from django.views import View
 from .forms import ReviewForm
 from transactions.views import send_transaction_email
+from django.utils.decorators import method_decorator
+from django.contrib.auth.decorators import login_required
 
 # Create your views here.
 
@@ -43,7 +45,8 @@ class DetailsPostView(DetailView):
         context['reviews']= reviews
         context['review_form']= review_form
         return context
-
+    
+@method_decorator(login_required, name='dispatch')
 class PurchaseView(View):
     def get(self, request, id):
         book = Book.objects.get(id=id)
@@ -59,7 +62,8 @@ class PurchaseView(View):
             messages.success(request, "Purchase successful. Balance deducted.")
         send_transaction_email(self.request.user,book.price,"Purchase Message", 'transactions/purchase_email.html' )
         return redirect('profile')
-     
+
+@method_decorator(login_required, name='dispatch')
 class ReturnView(DeleteView):
     model = Bookpurchase
     success_url = reverse_lazy('profile')
