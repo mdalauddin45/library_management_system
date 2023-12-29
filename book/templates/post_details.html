@@ -21,9 +21,9 @@
 </div>
 
 <div class="card mt-4 m-2">
-  <h5 class="card-header">Total Comment: {{ comments | length }}</h5>
+  <h5 class="card-header">Total Comment: {{ reviews | length }}</h5>
   <div class="card-body">
-    {% for c in comments %}
+    {% for c in reviews %}
       <div class="card mb-3">
         <div class="card-body">
           <div class="media">
@@ -39,14 +39,27 @@
   </div>
 </div>
 
-{% comment %} <div class="card mt-4 m-2">
+<div class="card mt-4 m-2">
   <div class="card-body">
     <form method="POST" enctype="multipart/form-data">
-      <h1 class="mb-4 text-2xl font-bold">Add Comment</h1>
-      {% csrf_token %} {{ comment_form | crispy }}
-      <button type="submit" class="btn btn-warning">Submit</button>
+      <h1 class="mb-4 text-2xl font-bold">Add Review</h1>
+      {% csrf_token %}
+      <div class="mb-4">
+        <label for="name" class="block text-gray-700 text-sm font-bold mb-2">Name</label>
+        <input id="name" type="text" name="name" placeholder="Your name" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+      </div>
+      <div class="mb-4">
+        <label for="email" class="block text-gray-700 text-sm font-bold mb-2">Email</label>
+        <input id="email" type="email" name="email" placeholder="Your email" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+      </div>
+      <div class="mb-4">
+        <label for="body" class="block text-gray-700 text-sm font-bold mb-2">Body</label>
+        <textarea id="body" name="body" placeholder="Your review" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"></textarea>
+      </div>
+      <button type="submit" class="bg-yellow-500 hover:bg-yellow-600 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">Submit</button>
     </form>
   </div>
-</div> {% endcomment %}
+</div>
+
 
 {% endblock %}

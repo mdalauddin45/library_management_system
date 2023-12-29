@@ -1,5 +1,5 @@
 from django import forms
-from .models import Book, UserReviews
+from .models import Book, UserReviews,Purchase
 
 class BookForm(forms.ModelForm):
     class Meta:
@@ -12,3 +12,17 @@ class ReviewForm(forms.ModelForm):
         model = UserReviews
         fields = ['name','email','body']
         
+    def __init__(self, *args, **kwargs):
+        self.book = kwargs.pop('book', None)
+        self.user = kwargs.pop('user', None)
+        super().__init__(*args, **kwargs)
+
+    def clean(self):
+        cleaned_data = super().clean()
+
+        user_purchased_or_borrowed = Purchase.objects.filter(user=self.user, book=self.book).exists()
+
+        if not user_purchased_or_borrowed:
+            raise forms.ValidationError("You must purchase or borrow the book to leave a review.")
+
+        return cleaned_data

@@ -36,6 +36,7 @@ class UserLogoutView(LogoutView):
 
 class ProfileView(LoginRequiredMixin, ListView):
     template_name = 'accounts/profile.html'
+    balance = 0 
 
     def get(self, request):
         user_purchases = Purchase.objects.filter(user=request.user)
