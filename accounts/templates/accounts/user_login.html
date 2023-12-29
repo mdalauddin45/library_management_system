@@ -6,10 +6,10 @@
 {% endfor %} {% endif %}
 <div class="grid grid-cols-3 gap-4">
     <div></div>
-    <div class="py-2 px-3 rounded-xl bg-white mt-12">
-        <h1 class="font-bold text-3xl text-center pb-5 shadow-md">Login</h1>
-        <div class="w-full mt-10">
-            <form method="post" class="shadow-md border border-gray-200 rounded px-8 pt-6 pb-8 mb-4">
+    <div class="py-2 px-3 rounded-xl bg-white mt-12 ">
+        <h1 class="font-bold text-3xl text-center pb-5 ">Login</h1>
+        <div class="w-full mt-10 px-10 pb-10">
+            <form method="post" class="pt-6 pb-8 mb-4">
                 {% csrf_token %} {% for hidden_field in form.hidden_fields %} {{ hidden_field.errors }} {{ hidden_field }} {% endfor %} 
                 {% for field in form.visible_fields %}
                 <div class="mb-4">
@@ -23,7 +23,7 @@
                 {% endfor %} {% endif %} {% endfor %}
 
                 <div class="flex items-center justify-center w-full">
-                    <button class="bg-blue-900 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="submit">
+                    <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="submit">
                 Log In
             </button>
                 </div>

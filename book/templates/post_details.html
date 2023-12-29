@@ -1,24 +1,25 @@
 {% extends "base.html" %} 
 {% block content %} 
-
 <div class="flex bg-white mt-5 rounded-md m-2">
-  <div class="w-1/2">
-    <img src="{{ book.image.url }}" class="w-full" alt="Card Image">
+  <div class="w-1/2 flex justify-center items-center py-5">
+    <img src="{{ book.image.url }}" class="max-w-full" style="max-width: 400px;" alt="Book Image">
   </div>
   <div class="w-1/2 p-4">
-    <div class="bg-white p-6 ">
+    <div class="bg-white p-6">
       <h5 class="text-2xl font-bold mb-4">
         <a href="#" class="text-blue-500 hover:underline">{{ book.title }}</a>
       </h5>
-      <p>Price: {{ book.price }} $</p>
-      <p>Description: {{ book.description }}</p>
-      <p>Category Name: {{ book.category }}</p>
-      <a href="{% url 'purchase_book' book.id %}" class="flex items-center justify-center w-full p-3 font-semibold tracki bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 mt-2 rounded">Borrow</a>
+      <p class="text-gray-600 mb-2">Description: {{ book.description }}</p>
+      <p class="text-gray-600 mb-2">Category Name: {{ book.category }}</p>
+      <p class="text-gray-600 mb-2">Price: {{ book.price }} $</p>
+      <a href="{% url 'purchase_book' book.id %}" class="flex items-center justify-center w-full p-3 font-semibold tracking bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 mt-2 rounded">Borrow</a>
       {% if user.is_authenticated %}
       {% endif %}
     </div>
   </div>
 </div>
+
+
 
 {% if reviews %}
 <div class="card mt-4 m-2 bg-white rounded-md  px-10">
