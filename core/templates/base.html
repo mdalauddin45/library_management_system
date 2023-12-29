@@ -22,12 +22,12 @@
     <body class="bg-red-100">
         {% include 'navbar.html' %}
         {% block body %}
-            <div class="lg:container lg:mx-auto" id="main">
+            <div class="lg:container lg:mx-auto mb-20" id="main">
                 {% include 'messages.html' %}
                 {% block content %}
                 {% endblock %}
             </div>
-            {% comment %} {% include 'footer.html' %} {% endcomment %}
+            {% include 'footer.html' %}
 
         {% endblock %}
     </body>
