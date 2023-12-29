@@ -1,34 +1,38 @@
 {% extends "base.html" %} 
 {% block content %} 
 
-<div class="flex">
+<div class="flex bg-white mt-5 rounded-md m-2">
   <div class="w-1/2">
     <img src="{{ book.image.url }}" class="w-full" alt="Card Image">
   </div>
   <div class="w-1/2 p-4">
-    <div class="bg-white p-6 rounded-md shadow-md">
+    <div class="bg-white p-6 ">
       <h5 class="text-2xl font-bold mb-4">
         <a href="#" class="text-blue-500 hover:underline">{{ book.title }}</a>
       </h5>
       <p>Price: {{ book.price }} $</p>
       <p>Description: {{ book.description }}</p>
       <p>Category Name: {{ book.category }}</p>
-      <a href="{% url 'purchase_book' book.id %}" class="flex items-center justify-center w-full p-3 font-semibold tracki rounded-md dark:bg-violet-400 dark:text-gray-900">Borrow</a>
+      <a href="{% url 'purchase_book' book.id %}" class="flex items-center justify-center w-full p-3 font-semibold tracki bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 mt-2 rounded">Borrow</a>
       {% if user.is_authenticated %}
       {% endif %}
     </div>
   </div>
 </div>
 
-<div class="card mt-4 m-2">
-  <h5 class="card-header">Total Comment: {{ reviews | length }}</h5>
-  <div class="card-body">
+{% if reviews %}
+<div class="card mt-4 m-2 bg-white rounded-md  px-10">
+  <h5 class="card-header py-5">Total Review: {{ reviews | length }}</h5>
+  <div class="card-body pb-2">
     {% for c in reviews %}
-      <div class="card mb-3">
+    <hr>
+      <div class="card mb-3 pb-2 pt-5">
         <div class="card-body">
           <div class="media">
             <div class="media-body">
-              <h5 class="mt-0">{{ c.name }}</h5>
+              <h5 class="mt-0 text-lg font-bold">
+                  <span class="opacity-50">By</span> {{ c.name }}
+              </h5>            
               <p>{{ c.body }}</p>
               <p>{{ c.created_on }}</p>
             </div>
@@ -38,8 +42,8 @@
     {% endfor %}
   </div>
 </div>
-
-<div class="card mt-4 m-2">
+{% endif %}
+<div class="card mt-4 m-2 bg-white rounded-md p-5">
   <div class="card-body">
     <form method="POST" enctype="multipart/form-data">
       <h1 class="mb-4 text-2xl font-bold">Add Review</h1>
@@ -56,7 +60,7 @@
         <label for="body" class="block text-gray-700 text-sm font-bold mb-2">Body</label>
         <textarea id="body" name="body" placeholder="Your review" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"></textarea>
       </div>
-      <button type="submit" class="bg-yellow-500 hover:bg-yellow-600 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">Submit</button>
+      <button type="submit" class="flex items-center justify-center w-full p-3 font-semibold tracki bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 mt-2 rounded">Submit</button>
     </form>
   </div>
 </div>
