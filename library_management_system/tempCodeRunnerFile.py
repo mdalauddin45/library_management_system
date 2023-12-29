@@ -1,0 +1,2 @@
+_DIR)
+print(STATICFILES_DIRS)
