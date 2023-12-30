@@ -8,4 +8,5 @@ Hosted by Onreder -> [Library Management System](https://library-management-yv5a
 
 ## Admin panel:
    Username: admin
+   and
    Password: 1234
