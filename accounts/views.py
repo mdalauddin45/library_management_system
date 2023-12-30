@@ -22,16 +22,20 @@ class UserRegistrationView(FormView):
         user = form.save()
         login(self.request, user)
         print(user)
+        messages.success(self.request, "After registration , Login successfully")
         return super().form_valid(form)
     
 
 class UserLoginView(LoginView):
     template_name = 'accounts/user_login.html'
     def get_success_url(self):
+        messages.success(self.request, "Login successfully")
         return reverse_lazy('home')
 
 class UserLogoutView(LogoutView):
     def get_success_url(self):
+        if self.request.user.is_authenticated:
+            logout(self.request)
         messages.success(self.request, "Logout successfully")
         return reverse_lazy('home')
 
