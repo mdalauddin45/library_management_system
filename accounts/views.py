@@ -32,8 +32,7 @@ class UserLoginView(LoginView):
 
 class UserLogoutView(LogoutView):
     def get_success_url(self):
-        if self.request.user.is_authenticated:
-            logout(self.request)
+        messages.success(self.request, "Logout successfully")
         return reverse_lazy('home')
 
 @method_decorator(login_required, name='dispatch')
