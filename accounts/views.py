@@ -8,8 +8,6 @@ from django.views.generic import ListView
 from django.contrib import messages
 from book.models import Bookpurchase
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.utils.decorators import method_decorator
-from django.contrib.auth.decorators import login_required
 
 # Create your views here.
 class UserRegistrationView(FormView):
@@ -39,7 +37,6 @@ class UserLogoutView(LogoutView):
         messages.success(self.request, "Logout successfully")
         return reverse_lazy('home')
 
-@method_decorator(login_required, name='dispatch')
 class ProfileView(LoginRequiredMixin, ListView):
     template_name = 'accounts/profile.html'
     balance = 0
