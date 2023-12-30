@@ -52,6 +52,7 @@ INSTALLED_APPS = [
 ]
 
 LOGIN_URL = '/accounts/login/'
+LOGOUT_URL = '/accounts/logout/'
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
